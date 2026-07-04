@@ -1,89 +1,74 @@
-# Age of Claude 🏰⚔️
+# Age of Claude 🏰⚔️ — Novempos Fork
 
-*Wololo! An empire begins from humble beginnings!*
+*Wololo! İmparatorluk küçük adımlarla başlar!*
 
-## Overview
+## Genel Bakış
 
-Age of Claude brings the iconic sounds of Age of Empires to your Claude Code sessions. Every action triggers nostalgic AoE dialogue and sound effects, turning your coding sessions into an RTS experience. It's also actually useful and not just a gimmick. For example, I have it say "Hey, I'm in your town" when Claude starts to create or edit a file. 
+Age of Claude, Age of Empires'ın ikonik seslerini Claude Code oturumlarına taşır. Claude bir şey yaptıkça AoE ses efektleri çalar; kodlama seansı bir RTS deneyimine döner.
 
-The sounds folder has a ton of unused sounds, so feel free to play around in .claude/settings.json to put in other sounds for the different hook triggers. It's also a fun way to learn about the hook system in Claude Code.
+Bu, [aliparoya/age-of-claude](https://github.com/aliparoya/age-of-claude) reposunun **Novempos fork'udur**. Orijinalden farkı:
 
-You'll need to have python installed as that's what I used to have it work on all of the major operating systems. You can update the hook commands to run things natively in your OS if you prefer not to use python.
+- Sesler `.claude/settings.json` içinde **inline python** yerine tek bir yardımcı script (`play.py`) üzerinden çalınır.
+- Yüzlerce kullanılmayan ses temizlendi; sadece **kullandığımız 7 ses** bırakıldı.
+- Hook eşleşmeleri bizim kurulumumuza göre sadeleştirildi.
 
-There's a silence.wav file in the sounds folder that you can use as a placeholder for some of the hooks, so if you want to keep the hook in the file without it making a sound.
+Python kurulu olması gerekir; ses çalma tüm büyük işletim sistemlerinde `play.py` üzerinden çalışır.
 
-## Features
-
-- 🎮 **Cross-platform support** - Works on Windows, macOS, and Linux
-- 🔊 **Smart sound mapping** - Different sounds for different Claude Code hooks and notification types
-
-## Hook Sound Mappings
+## Hook Ses Eşleşmeleri
 
 ```
-📁 Session Lifecycle
-├── UserPromptSubmit ────── Random villager selection sounds
-├── Stop ────────────────── villager_train1.wav
-├── SessionEnd 
-│   ├── exit ────────────── Random farewell sounds
-│   └── clear ───────────── soldier_select_papadakis5.wav
-└── SubagentStop ────────── soldier_select_rudkin1.wav
+📁 Oturum Yaşam Döngüsü
+├── UserPromptSubmit ──────── 5814.wav
+├── Stop ──────────────────── villager_train1.wav
+├── SubagentStop ──────────── 6298.wav
+├── Notification ──────────── 6294.wav
+└── SessionEnd
+    ├── exit ───────────────── 6301.wav
+    └── clear ──────────────── 6300.wav
 
-📁 Tool Operations - PreToolUse (before tool runs)
-├── Read ────────────────── Random villager selection sounds
-├── Write ───────────────── dialogue_hey_im_in_your_town.wav
-├── Edit/MultiEdit ──────── dialogue_hey_im_in_your_town.wav
-├── NotebookEdit ────────── dialogue_hey_im_in_your_town.wav
-├── Bash ────────────────── dialogue_attack_them_now.wav
-├── Grep/Glob ───────────── dialogue_i_need_food.wav
-├── LS ──────────────────── villager_select4.WAV
-├── WebFetch/WebSearch ──── working_sound.wav
-├── Task ────────────────── Random priest conversion sounds
-├── TodoWrite ───────────── Random villager training sounds
-└── ExitPlanMode ────────── dialogue_whos_the_man.wav
-
-📁 Tool Operations - PostToolUse (after tool completes)
-├── Write/Edit/MultiEdit ── Random success sounds
-├── Bash ────────────────── dialogue_aww_yeah.wav
-├── Grep/Glob/LS ────────── villager_select18.WAV
-├── WebFetch/WebSearch ──── villager_select19.wav
-├── Task ────────────────── working_sound.wav
-└── TodoWrite ───────────── working_sound.wav
-
-📁 Context Management
+📁 Bağlam Yönetimi
 └── PreCompact
-    ├── auto ────────────── dialogue_i_need_food.wav
-    └── manual ──────────── dialogue_your_attempts_are_futile.wav
+    ├── auto ───────────────── 5809.wav
+    └── manual ─────────────── 6294.wav
 ```
 
-## Installation
+Kalan sesler (`.claude/sounds/`):
 
-1. Clone this repository:
+```
+5809.wav  5814.wav  6294.wav  6298.wav  6300.wav  6301.wav  villager_train1.wav
+```
+
+## Kurulum
+
+1. Repoyu klonla:
 ```bash
-git clone https://github.com/aliparoya/age-of-claude.git
+git clone https://github.com/Novempos/age-of-claude.git
 cd age-of-claude
 ```
 
-2. Either:
-   - Copy the `.claude` folder to your project root, or
-   - Just `cd` into the repo and start using Claude Code directly
-3. The hooks will automatically trigger during Claude Code sessions
+2. Ya:
+   - `.claude` klasörünü proje kök dizinine kopyala, ya da
+   - Bu repo dizinine `cd` yapıp Claude Code'u doğrudan kullanmaya başla
+3. Hook'lar Claude Code oturumları sırasında otomatik tetiklenir.
 
-## Requirements
+> Not: `.claude/settings.json` içindeki hook komutları `play.py`'ye **mutlak yol** ile referans verir
+> (`C:/Users/Osman/.claude/age-of-claude/play.py`). Başka bir makinede kullanacaksan bu yolu kendi
+> ortamına göre güncelle.
 
-- Python 3.x (for cross-platform sound playback)
-- Audio playback support:
-  - **Windows**: Python winsound library
-  - **macOS**: Built-in `afplay`
-  - **Linux**: `aplay`, `paplay`, or `ffplay`
+## Gereksinimler
 
-## Customization
+- Python 3.x (çapraz platform ses çalma için)
+- Ses çalma desteği:
+  - **Windows**: Python `winsound` kütüphanesi
+  - **macOS**: Yerleşik `afplay`
+  - **Linux**: `aplay`
 
-### Sound Selection
-- Edit `.claude/settings.json` to customize sound mappings
-- The `.claude/sounds/` folder contains many Age of Empires sound files to choose from
-- You can assign different sounds to any hook by modifying the command paths in settings.json
+## Özelleştirme
 
+- Ses eşleşmelerini `.claude/settings.json` içinden değiştir.
+- Yeni ses eklemek istersen `.claude/sounds/` klasörüne `.wav` dosyanı koy ve ilgili hook komutunda dosya adını ver.
+- Kullanılan ses ID'leri (5809, 6294 vb.) Age of Empires II'nin ses dosyalarıdır.
 
-## Credits
+## Krediler
 
-Sound effects from the original Age of Empires game by Ensemble Studios/Microsoft.
+Ses efektleri, Ensemble Studios/Microsoft yapımı orijinal Age of Empires oyunundan alınmıştır.
